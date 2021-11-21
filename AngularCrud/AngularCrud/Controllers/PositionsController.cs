@@ -21,7 +21,15 @@ namespace AngularCrud.Controllers
         [HttpGet]
         public async Task<IEnumerable<Positions>> Get()
         {
-            return await _positionService.GetPositionsList();
+            try
+            {
+                return await _positionService.GetPositionsList();
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

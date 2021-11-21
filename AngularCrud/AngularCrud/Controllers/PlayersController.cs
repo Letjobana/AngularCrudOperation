@@ -1,15 +1,13 @@
 ﻿using AngularCrud.Models;
 using AngularCrud.Repositories.Abstracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AngularCrud.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class PlayersController : ControllerBase
     {
@@ -24,21 +22,38 @@ namespace AngularCrud.Controllers
         [HttpGet]
         public async Task<IEnumerable<Players>> Get()
         {
-            return await _playerService.GetPlayersList();
+            try
+            {
+                return await _playerService.GetPlayersList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // GET: api/Players/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Players>> Get(int id)
         {
-            var player = await _playerService.GetPlayerById(id);
-
-            if (player == null)
+            try
             {
-                return NotFound();
+                var player = await _playerService.GetPlayerById(id);
+
+                if (player == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(player);
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
-            return Ok(player);
         }
 
         // POST: api/Players
@@ -54,32 +69,49 @@ namespace AngularCrud.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Players player)
         {
-            if (id != player.Id)
+            try
             {
-                return BadRequest("Not a valid player id");
+                if (id != player.Id)
+                {
+                    return BadRequest("Not a valid player id");
+                }
+
+                await _playerService.UpdatePlayer(player);
+
+                return NoContent();
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
-            await _playerService.UpdatePlayer(player);
-
-            return NoContent();
         }
 
         // DELETE: api/Players/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (id <= 0)
-                return BadRequest("Not a valid player id");
-
-            var player = await _playerService.GetPlayerById(id);
-            if (player == null)
+            try
             {
-                return NotFound();
+                if (id <= 0)
+                    return BadRequest("Not a valid player id");
+
+                var player = await _playerService.GetPlayerById(id);
+                if (player == null)
+                {
+                    return NotFound();
+                }
+
+                await _playerService.DeletePlayer(player);
+
+                return NoContent();
             }
+            catch (Exception)
+            {
 
-            await _playerService.DeletePlayer(player);
-
-            return NoContent();
+                throw;
+            }
         }
     }
 }

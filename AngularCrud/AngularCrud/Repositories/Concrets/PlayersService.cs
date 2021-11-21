@@ -2,7 +2,6 @@
 using AngularCrud.Models;
 using AngularCrud.Repositories.Abstracts;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -30,11 +29,20 @@ namespace AngularCrud.Repositories.Concrets
         }
         public async Task<Players> GetPlayerById(int id)
         {
-            return await _context.GetPlayers.Include(x => x.PositionId).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.GetPlayers.FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task<IEnumerable<Players>> GetPlayersList()
         {
-            return await _context.GetPlayers.Include(x => x.PositionId).ToListAsync();
+            try
+            {
+                return await _context.GetPlayers.ToListAsync();
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+           
         }
         public async Task UpdatePlayer(Players player)
         {
