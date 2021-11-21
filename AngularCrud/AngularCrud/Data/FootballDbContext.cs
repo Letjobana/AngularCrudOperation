@@ -10,6 +10,6 @@ namespace AngularCrud.Data
 
         }
         public DbSet<Players> GetPlayers { get; set; }
-        public DbSet<Postitions> GetPostitions { get; set; }
+        public DbSet<Positions> GetPostitions { get; set; }
     }
 }
