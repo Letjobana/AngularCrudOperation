@@ -1,17 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AngularCrud.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AngularCrud.Data
 {
-    public class FootballDbContext:DbContext
+    public class FootballDbContext : DbContext
     {
         public FootballDbContext(DbContextOptions<FootballDbContext> options) : base(options)
         {
 
         }
-        
+        public DbSet<Players> GetPlayers { get; set; }
+        public DbSet<Postitions> GetPostitions { get; set; }
     }
 }
