@@ -42,7 +42,7 @@ namespace AngularCrud.Repositories.Concrets
 
                 throw;
             }
-           
+
         }
         public async Task UpdatePlayer(Players player)
         {
